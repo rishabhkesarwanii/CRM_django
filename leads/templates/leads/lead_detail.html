@@ -21,11 +21,15 @@
         </style>
     </head>
     <body>
-         <a href="/leads">GO BACK</a>
-         <br>
+        <a href="{% url 'leads:lead-list' %}">GO BACK</a>
+        <br>
         <h1>"This is the details of {{lead.first_name}} {{lead.last_name}}"</h1>
         <p> This person age {{lead.age}}</p>
         <p> The agent resposible for the this lead is {{lead.agent}}</p>
+        <a href="{% url 'leads:lead-update' lead.pk %}">Update</a>
+        <a href="{% url 'leads:lead-delete' lead.pk %}">Delete</a>
+
+
         
         
         <script src="" async defer></script>
