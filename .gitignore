@@ -1,5 +1,7 @@
 crm_env
 notes.txt
+.vscode
+.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
