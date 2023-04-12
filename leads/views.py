@@ -4,6 +4,9 @@ from .models import *
 from .forms import LeadForm, LeadModelForm
 
 
+def landing_page(request):
+    return render(request, "leads/landing.html")
+
 def lead_list(request):
     lead = Lead.objects.all()
     context = {
