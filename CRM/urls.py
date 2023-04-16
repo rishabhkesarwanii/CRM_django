@@ -28,7 +28,7 @@ urlpatterns = [
     path('leads/', include('leads.urls', namespace="leads")),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
-    path('login/', LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 
 if settings.DEBUG:
