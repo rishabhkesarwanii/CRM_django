@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from .models import *
-from .forms import LeadForm, LeadModelForm, CustomUserCreationForm, AssignAgentForm
+from .forms import LeadForm, LeadModelForm, CustomUserCreationForm, AssignAgentForm, LeadCategoryUpdateForm
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 # from django.views impor generic  -------- generic.TemplateView so on 
 from agents.mixins import OrganiserAndLoginRequiredMixin
@@ -254,6 +254,24 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
             queryset = category.objects.filter(organisation=user.agent.organisation)
         return queryset
     
+
+
+class LeadCategoryUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "leads/lead_category_update.html"
+    form_class = LeadCategoryUpdateForm
+
+    def get_success_url(self):
+        return reverse("leads:lead-detail", kwargs={"pk": self.get_object().id})
+    
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = queryset.filter(agent__user=user)
+        return queryset
 
     
 # def lead_delete(request, pk):
