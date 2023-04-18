@@ -206,7 +206,32 @@ class AssignAgentView(OrganiserAndLoginRequiredMixin, FormView):
         lead.save()
         return super(AssignAgentView, self).form_valid(form)
 
+class CategoryListView(LoginRequiredMixin, ListView):
+    template_name = "leads/category_list.html"
+    context_object_name = "category_list"
 
+    def get_context_data(self, **kwargs):
+
+        user = self.request.user
+
+        if user.is_organiser:
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        context.update({
+            "unassigned_leads_count": queryset.filter(category__isnull=True).count()
+        })
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organiser:
+            queryset = category.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = category.objects.filter(organisation=user.agent.organisation)
+        return queryset
 
 # def lead_delete(request, pk):
 #     lead = Lead.objects.get(id=pk)
