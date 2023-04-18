@@ -1,0 +1,16 @@
+{% extends "leads/base.html" %} 
+{% block content%}
+
+    <a href="{% url 'leads:lead-list'%}">GO BACK</a></br >
+    <hr />
+
+    <h1>Assign an Agen to this lead</h1>
+
+    <form method ="POST">
+        {%csrf_token%}
+        {{form.as_p}}     
+        <button>Submit</button>
+    </form>
+        
+        <script src="" async defer></script>
+{% endblock content%}
